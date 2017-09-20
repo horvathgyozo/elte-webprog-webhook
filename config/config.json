@@ -1,0 +1,11 @@
+{
+  "port": 8080,
+  "targetDir": "t",
+  "github": {
+    "repository": "",
+    "secret": ""
+  },
+  "scripts": {
+    "after": ""
+  }
+}

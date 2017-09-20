@@ -1,0 +1,39 @@
+{
+  "name": "elte-webprog-webhook",
+  "version": "1.0.0",
+  "description": "Mini HTTP server that handles GitHub webhook requests",
+  "main": "application/index.js",
+  "scripts": {
+    "build": "babel application/index.js -o build/index.js",
+    "start": "npm run build && node build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vimtaai/github-webhook.git"
+  },
+  "keywords": [
+    "github",
+    "webhook",
+    "http"
+  ],
+  "author": "Márton Visnovitz <vimtaai@inf.elte.hu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vimtaai/github-webhook/issues"
+  },
+  "homepage": "https://github.com/vimtaai/github-webhook#readme",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "crypto-js": "^3.1.9-1",
+    "express": "^4.15.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  }
+}
