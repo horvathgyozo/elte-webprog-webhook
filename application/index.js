@@ -43,6 +43,7 @@ server.post('/webhook', function (req, res) {
         console.log(stdout)
         const afterCmd = config.scripts.after || 'echo'
         console.log(`\t\t\t\t\t WorkingDir:\t${config.targetDir}\n>> ${afterCmd}`)
+
         childProcess.exec(afterCmd, { cwd: config.targetDir }, function (err, stdout, stderr) {
           if (err) {
             console.error(stderr)

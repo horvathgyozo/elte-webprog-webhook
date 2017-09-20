@@ -1,6 +1,6 @@
 {
-  "port": 8080,
-  "targetDir": "t",
+  "port": 8001,
+  "targetDir": "",
   "github": {
     "repository": "",
     "secret": ""
