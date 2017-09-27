@@ -7,6 +7,20 @@ import config from '../config/config.json'
 
 const server = express()
 
+function exec (cmd, workingDir) {
+  return new Promise(function (resolve, reject) {
+    console.log(`\t\t\t\t\t WorkingDir:\t${config.repositoryPath}\n>> ${cmd}`)
+
+    childProcess.exec(cmd, { cwd: workingDir }, function (err, stdout, stderr) {
+      if (err) {
+        return reject(err, stderr)
+      } else {
+        return resolve(stdout)
+      }
+    })
+  })
+}
+
 server.use(bodyParser.json())
 
 server.post('/webhook', function (req, res) {
@@ -29,40 +43,35 @@ server.post('/webhook', function (req, res) {
 
   if (repoMatch && secretMatch) {
     const gitCmd = `git pull`
-    console.log(`\t\t\t\t\t WorkingDir:\t${config.targetDir}\n>> ${gitCmd}`)
+    const buildCmd = `bundle exec jekyll build`
+    const deployCmd = `cp -R _site/* ${config.publicPath}`
 
-    childProcess.exec(gitCmd, { cwd: config.targetDir }, function (err, stdout, stderr) {
-      if (err) {
+    exec(gitCmd, config.repositoryPath)
+      .then(function (stdout) {
+        console.log(stdout)
+        return exec(buildCmd, config.repositoryPath)
+      })
+      .then(function (stdout) {
+        console.log(stdout)
+        return exec(deployCmd, config.repositoryPath)
+      })
+      .then(function (stdout) {
+        console.log(stdout)
+        res.status(200)
+        res.json({
+          status: 200,
+          message: 'Webhook executed successfully'
+        })
+      })
+      .catch(function (err, stderr) {
         console.error(stderr)
         res.status(500)
         res.json({
           status: 500,
-          message: 'Could not process GitHub request'
+          message: 'Could not process GitHub request',
+          error: err.message
         })
-      } else {
-        console.log(stdout)
-        const afterCmd = config.scripts.after || 'echo'
-        console.log(`\t\t\t\t\t WorkingDir:\t${config.targetDir}\n>> ${afterCmd}`)
-
-        childProcess.exec(afterCmd, { cwd: config.targetDir }, function (err, stdout, stderr) {
-          if (err) {
-            console.error(stderr)
-            res.status(202)
-            res.json({
-              status: 202,
-              message: 'Pull request successful but `after` script failed to execute'
-            })
-          } else {
-            console.log(stdout)
-            res.status(200)
-            res.json({
-              status: 200,
-              message: 'Webhook executed successfully'
-            })
-          }
-        })
-      }
-    })
+      })
   } else {
     res.status(403)
     res.json({

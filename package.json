@@ -4,7 +4,7 @@
   "description": "Mini HTTP server that handles GitHub webhook requests",
   "main": "application/index.js",
   "scripts": {
-    "build": "babel application/index.js -o build/index.js",
+    "build": "mkdir -p build && babel application/index.js -o build/index.js",
     "start": "npm run build && node build/index.js"
   },
   "repository": {

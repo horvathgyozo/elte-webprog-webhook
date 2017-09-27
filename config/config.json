@@ -1,11 +1,11 @@
 {
   "port": 8001,
-  "targetDir": "",
   "github": {
     "repository": "",
     "secret": ""
   },
-  "scripts": {
-    "after": ""
+  "local": {
+    "repositoryPath": "",
+    "publicPath": ""
   }
 }
