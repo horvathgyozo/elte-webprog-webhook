@@ -44,7 +44,7 @@ server.post('/webhook', function (req, res) {
   if (repoMatch && secretMatch) {
     const gitCmd = `git pull`
     const buildCmd = `bundle exec jekyll build`
-    const deployCmd = `cp -R _site/* ${config.publicPath}`
+    const deployCmd = `cp -R _site/* ${config.local.publicPath}`
 
     exec(gitCmd, config.repositoryPath)
       .then(function (stdout) {
