@@ -9,7 +9,7 @@ const server = express()
 
 function exec (cmd, workingDir) {
   return new Promise(function (resolve, reject) {
-    console.log(`\t\t\t\t\t WorkingDir:\t${config.repositoryPath}\n>> ${cmd}`)
+    console.log(`\t\t\t\t\t WorkingDir:\t${workingDir}\n>> ${cmd}`)
 
     childProcess.exec(cmd, { cwd: workingDir }, function (err, stdout, stderr) {
       if (err) {
