@@ -46,14 +46,14 @@ server.post('/webhook', function (req, res) {
     const buildCmd = `bundle exec jekyll build`
     const deployCmd = `cp -R _site/* ${config.local.publicPath}`
 
-    exec(gitCmd, config.repositoryPath)
+    exec(gitCmd, config.local.repositoryPath)
       .then(function (stdout) {
         console.log(stdout)
-        return exec(buildCmd, config.repositoryPath)
+        return exec(buildCmd, config.local.repositoryPath)
       })
       .then(function (stdout) {
         console.log(stdout)
-        return exec(deployCmd, config.repositoryPath)
+        return exec(deployCmd, config.local.repositoryPath)
       })
       .then(function (stdout) {
         console.log(stdout)
